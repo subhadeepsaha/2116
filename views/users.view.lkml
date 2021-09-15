@@ -63,6 +63,45 @@ view: users {
     sql: ${TABLE}.state ;;
   }
 
+
+  dimension: state_html_link {
+
+    type: string
+    sql: ${TABLE}.state ;;
+    html: <a href= "https://www.google.com/search?q={{value}}" >{{value}} </a>;;
+
+  }
+
+
+  dimension: state_link_parameter {
+
+    type: string
+    sql: ${TABLE}.state ;;
+    link: {
+      label: "Search in Google "
+      url: "https://www.google.com/search?q={{value}}"
+      icon_url: "http://google.com/favicon.ico"
+    }
+  }
+
+  dimension: State_colour {
+
+    type: string
+    sql: ${TABLE}.state ;;
+    html:
+    {% if value == "Alabama" %}
+          <p style="color: black; background-color: lightblue; font-size:100%; text-align:center"> {{rendered_value}} </p>
+        {% elsif value == "California" %}
+          <p style="color: black; background-color: #B9C1BD; font-size:100%; text-align:lef"> {{rendered_value}} </p>
+        {% else %}
+          <p style="color: black; background-color: #FFD6D6; font-size:100%; text-align:right"> {{rendered_value}} </p>
+        {% endif %};;
+
+
+  }
+
+
+
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
