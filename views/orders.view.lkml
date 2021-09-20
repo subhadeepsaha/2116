@@ -37,7 +37,31 @@ view: orders {
     type: count
     drill_fields: [detail*]
   }
-
+  parameter: Status_granularity{
+    type: string
+    allowed_value: {
+      label: "Cancelled count"
+      value: "cancelled"
+    }
+    allowed_value: {
+      label: "Complete count"
+      value: "complete"
+    }
+    allowed_value: {
+      label: "Pending count"
+      value: "pending"
+    }
+  }
+  dimension: Statuscount {
+    sql:
+    {% if Status_granularity._parameter_value == 'cancelled' %}
+      ${status}
+    {% elsif Status_granularity._parameter_value == 'complete' %}
+      ${status}
+    {% else %}
+      ${status}
+    {% endif %};;
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
