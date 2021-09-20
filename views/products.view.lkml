@@ -43,6 +43,23 @@ view: products {
     sql: ${TABLE}.sku ;;
   }
 
+  parameter: Product_ID {
+    type: string{
+      allowed_value: {
+        label: "Less than 1000"
+        value: "<1000"
+      }
+      allowed_value: {
+        label: "Less than 5000"
+        value: "<5000"
+      }
+      allowed_value: {
+        label: "All result"
+        value: ">0"
+      }
+    }
+  }
+
   measure: count {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
