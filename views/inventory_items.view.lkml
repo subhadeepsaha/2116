@@ -10,7 +10,20 @@ view: inventory_items {
 
   dimension: cost {
     type: number
-    sql: ${TABLE}.cost ;;
+    sql: ${TABLE}.cost*10 ;;
+  }
+  dimension: order_amount_bucket {
+    case: {
+      when: {
+        sql: ${cost} <= 50 and ${cost}>1;;
+        label: "gross sales > $1 and less that equal $50"
+      }
+      when: {
+        sql: ${cost} > 50 AND ${cost} <= 150;;
+        label: "gross sales > $50 and less that equal $150"
+      }
+      else:"Unknown"
+    }
   }
 
   dimension_group: created {

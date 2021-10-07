@@ -18,9 +18,10 @@ view: users {
     sql: ${TABLE}.city ;;
   }
 
-  dimension: country {
+
+  dimension: country1 {
     type: string
-    map_layer_name: countries
+    #map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
@@ -36,6 +37,10 @@ view: users {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+  dimension: yesno {
+    type: yesno
+    sql: ${age} = 'f'
   }
 
   dimension: email {
@@ -105,6 +110,18 @@ view: users {
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
+  }
+  measure: link {
+    type: number
+    sql: ${count} ;;
+    link: {
+      label: "explore by {{ state }}"
+      url: "https://lookerv2116.dev.looker.com/explore/ecommerce_subhadeep/order_items?qid=5R0rYvRJ7pSPoHixu8HyiP&origin_space=85&toggle=vis"
+    }
+    link: {
+      label: "Drill Dashboard {{ state }}"
+      url: "https://lookerv2116.dev.looker.com/dashboards-next/58?&f[users.state]={{ value }}"
+  }
   }
 
   measure: count {
