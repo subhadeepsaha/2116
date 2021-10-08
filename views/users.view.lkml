@@ -19,9 +19,11 @@ view: users {
   }
 
 
+
   dimension: country1 {
     type: string
-    #map_layer_name: countries
+    drill_fields: [city,state]
+    map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
@@ -65,6 +67,7 @@ view: users {
 
   dimension: state {
     type: string
+    hidden: yes
     sql: ${TABLE}.state ;;
   }
 
@@ -125,8 +128,9 @@ view: users {
   }
 
   measure: count {
+    hidden: yes
     type: count
-    drill_fields: [detail*]
+
   }
 
   # ----- Sets of fields for drilling ------
@@ -142,4 +146,4 @@ view: users {
       user_data.count
     ]
   }
-}
+  }
