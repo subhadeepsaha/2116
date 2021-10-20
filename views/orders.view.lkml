@@ -22,7 +22,11 @@ view: orders {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension: status {
+  dimension: sad {
+    type:  string
+    sql: ${status1} != 'complete' ;;
+  }
+  dimension: status1 {
     type: string
     sql: ${TABLE}.status ;;
   }
@@ -36,6 +40,27 @@ view: orders {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+  measure: count_confirm_applicant_address2 {
+#label: "2. Count Confirm Applicant Address"
+    description: "The number of applications that have entered confirm address stage."
+    type: count
+#group_label: "VER - Funnel Counts"
+    #filters: {
+      #field: confirm_applicant_address
+      #value: "Yes"
+    }
+  measure: 1hai1 {
+    type: count
+    #label: "1hai"
+    #group_label: "funnelchart"
+    filters: [status1: "cancelled"]
+  }
+  measure: 2hai {
+    type: count
+    filters: [status1: "cancelled"]
+    #label: "2hai"
+    #group_label: "funnelchart"
   }
   parameter: Status_granularity{
     type: string
@@ -52,16 +77,7 @@ view: orders {
       value: "pending"
     }
   }
-  dimension: Statuscount {
-    sql:
-    {% if Status_granularity._parameter_value == 'cancelled' %}
-      ${status}
-    {% elsif Status_granularity._parameter_value == 'complete' %}
-      ${status}
-    {% else %}
-      ${status}
-    {% endif %};;
-  }
+ #
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
