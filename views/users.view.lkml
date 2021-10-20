@@ -17,7 +17,10 @@ view: users {
     type: string
     sql: ${TABLE}.city ;;
   }
-
+  dimension: city2 {
+    type: string
+    sql: ${TABLE}.city ;;
+  }
   dimension: country {
     type: string
     map_layer_name: countries
@@ -107,11 +110,24 @@ view: users {
     sql: ${TABLE}.zip ;;
   }
 
+  dimension: Past30 {
+    type: date
+    sql:  CAST(${created_date} AS DATE) - INTERVAL 30 day AND YEAR(DATE_SUB( CAST(${created_date} AS DATE) , INTERVAL 1 YEAR ));;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
   }
+  measure: count1 {
+    type: number
+    sql: ${count} ;;
+  }
 
+  measure: Agesum {
+    type: sum
+    sql: ${age} ;;
+  }
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

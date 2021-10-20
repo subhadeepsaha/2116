@@ -81,6 +81,14 @@ view: order_items {
     {% endif %};;
   }
 
+  dimension: con_null {
+    type: string
+    sql: COALESCE(${returned_date}, "THIS IS NULL");;
+    html:  {% if value == 'THIS IS NULL' %}
+           <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+           {% endif %};;
+    }
+
   measure: count {
     type: count
     drill_fields: [id, orders.id, inventory_items.id]

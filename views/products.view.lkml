@@ -7,7 +7,10 @@ view: products {
     type: number
     sql: ${TABLE}.id ;;
   }
-
+  dimension: 500id {
+    type: number
+    sql: ${TABLE}.id > 200 ;;
+  }
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
@@ -41,6 +44,36 @@ view: products {
   dimension: sku {
     type: string
     sql: ${TABLE}.sku ;;
+  }
+  measure: test {
+    type: number
+    sql: ${rank} ;;
+  }
+
+  parameter: Product_ID {
+    type: string
+    allowed_value: {
+      label: "Less than 500"
+      value: "< 500"
+    }
+    allowed_value: {
+      label: "Less than 10,000"
+      value: "< 10000"
+    }
+    allowed_value: {
+      label: "All Results"
+      value: "> 0"
+    }
+  }
+ dimension: Rate {
+    sql:
+    {% if Product_ID._parameter_value == '< 500' %}
+    ${id}
+    {% elsif Product_ID._parameter_value == '< 10000' %}
+    ${id}
+    {% else %}
+    ${id}
+    {% endif %};;
   }
 
   measure: count {
