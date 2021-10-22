@@ -18,6 +18,11 @@ view: users {
     sql: ${TABLE}.city ;;
   }
 
+  measure: latest_name_in_alphabet {
+    type: string
+    sql: MAX(${city}) ;;
+  }
+
   dimension: country {
     type: string
     map_layer_name: countries
@@ -61,7 +66,18 @@ view: users {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
+
   }
+
+
+dimension: state_link_paramter_custom_drill {
+  type: string
+  sql: ${TABLE}.state ;;
+  link: {
+    label: "Drill Dashboard"
+    url: "/dashboards-next/47?State={{ value }}"
+  }
+}
 
 
   dimension: state_html_link {
@@ -111,6 +127,23 @@ view: users {
     type: count
     drill_fields: [detail*]
   }
+
+  dimension: break {
+
+    type: string
+
+    html: <div style="white-space:pre">{{ value }}</div> ;;
+
+    sql: concat(${first_name}, "\r\n" , ${last_name}) ;;
+
+  }
+
+
+dimension: state_map {
+  map_layer_name: us_states
+  sql: ${TABLE}.state ;;
+}
+
 
   # ----- Sets of fields for drilling ------
   set: detail {

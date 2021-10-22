@@ -13,6 +13,7 @@ view: orders {
     timeframes: [
       raw,
       time,
+      time_of_day,
       date,
       week,
       month,
@@ -20,7 +21,26 @@ view: orders {
       year
     ]
     sql: ${TABLE}.created_at ;;
+
+
   }
+
+  # My customized timeframes, added under the group "Created"
+
+
+  dimension: date_formatted {
+    group_label: "Created" label: "Date_Formatted"
+    sql:${created_date}  ;;
+    html: {{rendered_value | date : "%b %d %y " }} ;;
+
+  }
+
+dimension: week_formatted {
+  group_label: "Created" label: "Week_Formatted"
+  sql: ${created_week} ;;
+  html: {{rendered_value | date : "Week %U (%b %d)" }} ;;
+}
+
 
   dimension: status {
     type: string
@@ -32,6 +52,28 @@ view: orders {
     # hidden: yes
     sql: ${TABLE}.user_id ;;
   }
+
+
+
+
+dimension: test {
+  type: string
+  sql: "@#$udguhgdjx" ;;
+}
+
+
+measure: most_recent_order_date {
+  type: date
+  sql: max(${created_date}) ;;
+  convert_tz: no
+}
+
+
+measure: count_growth {
+  label: "Percentage of previous count Growth"
+  type: percent_of_previous
+  sql: ${count} ;;
+}
 
   measure: count {
     type: count
